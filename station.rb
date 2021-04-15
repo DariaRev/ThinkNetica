@@ -1,5 +1,5 @@
 class Station
-  attr_reader :trains_heavy, :trains_pas, :trains_now, :name
+  attr_reader :trains_now, :name
 
   def initialize(name)
     @name = name.to_s
@@ -10,15 +10,11 @@ class Station
     @trains_now << train
   end
 
-  def trains_by_type
-    trains_heavy = 0
-    trains_pas = 0
-
-    trains_now.each do |train|
-      trains_heavy += 1 if train.type == 'Грузовой'
-      trains_pas += 1 if train.type == 'Пассажирский'
-    end
-    puts trains_heavy, trains_pas
+  def trains_by(type)
+    trains_now.select {|train| train.type == type}
+  end
+  def count_trains_by(type)
+    trains_by(type).length
   end
 
   def send_train(train)

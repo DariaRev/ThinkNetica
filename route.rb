@@ -15,11 +15,7 @@ class Route
     @other_stations.delete(station)
   end
 
-  def show_stations
-    all_stations = []
-    all_stations << first_station
-    all_stations << @other_stations
-    all_stations << last_station
-    all_stations.flatten
+  def get_stations
+    [first_station, @other_stations, last_station].flatten
   end
 end

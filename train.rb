@@ -17,35 +17,48 @@ class Train
     self.speed = 0
   end
 
-  def change_amount(inc_or_dec)
-    @amount_cars += 1 if (speed == 0) && (inc_or_dec == '+')
-    @amount_cars -= 1 if (speed == 0) && (inc_or_dec == '-')
-    @amount_cars = 0 if @amount_cars < 0
+  def add_cars
+    @amount_cars += 1 if (speed == 0)
+  end
+  def delete_cars
+    if (speed == 0) && (amount_cars > 0)
+      @amount_cars -= 1
+    end
   end
 
   def set_route(route)
-    @route = route.show_stations
+    @route = route.get_stations
     @current_station = 0
     @route[@current_station].add_train(self)
   end
 
+  def get_prev
+    if @current_station > 0
+      @route[@current_station - 1]
+    end
+  end
+  def get_now
+    @route[@current_station]
+  end
+  def get_next
+    if @current_station < @route.length - 1
+      @route[@current_station + 1]
+    end
+  end
+
   def move_forward
     if @current_station < @route.length
-      @route[@current_station - 1].send_train(self)
+      get_now.send_train(self)
+      get_next.add_train(self)
       @current_station += 1
-      @route[@current_station].add_train(self)
     end
   end
 
   def move_back
     if current_station != 0
-      @route[@current_station].send_train(self)
-      @current_station = (@current_station - 1)
-      @route[@current_station - 1].add_train(self)
+      get_now.send_train(self)
+      get_prev.add_train(self)
+      @current_station -= 1
     end
-  end
-
-  def get_prev_now_next
-    "Предыдущая станция: #{@route[@current_station - 1]}, cейчас: #{@route[@current_station]}, cледующая: #{@route[@current_station + 1]}"
   end
 end
