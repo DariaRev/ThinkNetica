@@ -32,32 +32,32 @@ class Train
     @route[@current_station].add_train(self)
   end
 
-  def get_prev
+  def prev_station
     if @current_station > 0
       @route[@current_station - 1]
     end
   end
-  def get_now
+  def now_station
     @route[@current_station]
   end
-  def get_next
+  def next_station
     if @current_station < @route.length - 1
       @route[@current_station + 1]
     end
   end
 
   def move_forward
-    if @current_station < @route.length
-      get_now.send_train(self)
-      get_next.add_train(self)
+    if next_station
+      now_station.send_train(self)
+      next_station.add_train(self)
       @current_station += 1
     end
   end
 
   def move_back
-    if current_station != 0
-      get_now.send_train(self)
-      get_prev.add_train(self)
+    if prev_station
+      now_station.send_train(self)
+      prev_station.add_train(self)
       @current_station -= 1
     end
   end
