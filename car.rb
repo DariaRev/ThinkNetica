@@ -1,8 +1,13 @@
+# frozen_string_literal: true
+
 class Car
-end
+  attr_reader :type
 
-class CargoCar < Car
-end
+  def initialize(type)
+    @type = type
+  end
 
-class PassengerCar < Car
+  def info
+    "Вагон, тип: #{@type.type_name}"
+  end
 end

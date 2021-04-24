@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 require_relative 'train'
 require_relative 'car'
 require_relative 'route'
 require_relative 'station'
-require_relative 'cargo_train'
-require_relative 'pass_train'
+require_relative 'type'
+# require_relative 'cargo_train'
+# require_relative 'pass_train'
 
 class RailRoad
   attr_reader :stations, :trains, :routes
@@ -29,16 +32,17 @@ class RailRoad
     end
   end
 
-  private #пользователь должен работать только через основное меню
-
-  def seed #это тестовые данные
+  # это тестовые данные
+  def seed
     @stations = [Station.new('s1'), Station.new('s2'), Station.new('s3')]
-    @trains = [CargoTrain.new(1), PassengerTrain.new(2), CargoTrain.new(3)]
+    @trains = [Train.new(1, CargoType.new), Train.new(2, CargoType.new), Train.new(3, PassType.new)]
     route = Route.new(stations[0], stations[2])
     route.add_station(stations[1])
     @routes = [route]
     trains[0].set_route(route)
   end
+
+  private # пользователь должен работать только через основное меню
 
   def info(show_trains = FALSE)
     puts 'Список станций:'
@@ -65,9 +69,8 @@ class RailRoad
     type = gets.chomp.to_i
     puts 'Введите номер поезда'
     numb = gets.chomp
-
-    trains << CargoTrain.new(numb) if type == 1
-    trains << PassengerTrain.new(numb) if type == 2
+    trains << Train.new(numb, CargoType.new) if type == 1
+    trains << Train.new(numb, PassType.new) if type == 2
   end
 
   def create_route
@@ -125,11 +128,11 @@ class RailRoad
     found = select_train_by_num
     return if found.nil?
 
-    car = if found.instance_of? CargoTrain
-            CargoCar.new
-          else
-            PassengerCar.new
-          end
+    if found.type.instance_of? CargoType
+      car = Car.new(CargoType.new)
+    elsif found.type.instance_of? PassType
+      car = Car.new(PassType.new)
+    end
     found.add_car(car)
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Train
   attr_reader :route, :number, :type, :current_station, :cars, :speed
 
@@ -8,8 +10,16 @@ class Train
     @cars = []
   end
 
+  def add_car(car)
+    @cars << car if car.type.instance_of?(@type.class)
+  end
+
+  def delete_car
+    @cars.pop
+  end
+
   def info
-    "Поезд #{type}, номер #{number}, вагонов #{@cars.length}"
+    "Поезд #{@number}, тип: #{@type.type_name}, вагонов: #{cars.length}"
   end
 
   # public потому что нам не важно, какой это поезд

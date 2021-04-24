@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Route
   attr_reader :other_stations, :first_station, :last_station
 
