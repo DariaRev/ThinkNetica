@@ -7,12 +7,12 @@ class Train
   attr_reader :route, :number, :type, :current_station, :cars, :speed
 
   def initialize(number, type, company_name = '')
-    register_instance
     @number = number.to_s
     @type = type
     @speed = 0
     @company_name = company_name
     @cars = []
+    register
   end
 
   def self.find(number)

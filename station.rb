@@ -8,7 +8,7 @@ class Station
   def initialize(name)
     @name = name.to_s
     @trains_now = []
-    register_instance
+    register
   end
 
   def self.all

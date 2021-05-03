@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class Route
+
   include InstanceCounter
   attr_reader :other_stations, :first_station, :last_station
 
   def initialize(first_station, last_station)
-    register_instance
+    register
     @first_station = first_station
     @last_station = last_station
     @other_stations = []
