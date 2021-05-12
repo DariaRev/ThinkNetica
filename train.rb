@@ -4,7 +4,7 @@ require_relative 'name'
 require_relative 'instance_counter'
 require_relative 'car'
 require_relative 'type'
-require_relative 'validation'
+require_relative 'test'
 
 class Train
   include CompanyName
@@ -13,10 +13,9 @@ class Train
 
   attr_reader :route, :number, :type, :current_station, :cars, :speed
 
-  validate :number, :presence
-  validate :number, :format, /^[\wА-Яа-я]{3}-*[\wА-Яа-я]{2}$/
-  validate :type, :type, CargoType, PassType
-  validate :company_name, :presence
+  validate_presence :number, :company_name
+  validate_format :number, /^[\wА-Яа-я]{3}-*[\wА-Яа-я]{2}$/
+  validate_type :type, CargoType, PassType
 
   def initialize(number, type, company_name = '')
     @number = number.to_s

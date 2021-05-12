@@ -2,13 +2,14 @@
 
 require_relative 'instance_counter'
 require_relative 'train'
+
 class Station
   include InstanceCounter
   include Validation
 
   attr_reader :trains_now, :name
 
-  validate :name, :presence
+  validate_presence :name
 
   def initialize(name)
     @name = name.to_s
